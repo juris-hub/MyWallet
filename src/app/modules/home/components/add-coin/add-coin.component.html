@@ -1,0 +1,28 @@
+<form class="container" [formGroup]="formGroup" (submit)="onSubmit()">
+  <p-dropdown
+    [options]="coins"
+    optionValue="id"
+    optionLabel="name"
+    [filter]="true"
+    filterBy="name"
+    formControlName="selectedItem"
+    [showClear]="true"
+    placeholder="Select a coin"
+    appendTo="body"
+  >
+  </p-dropdown>
+
+  <div class="p-field p-col-12 p-md-3">
+    <label class="dialog-label"> Enter your amount: </label>
+    <p-inputNumber
+      [minFractionDigits]="2"
+      [maxFractionDigits]="15"
+      mode="decimal"
+      formControlName="coinInput"
+    >
+    </p-inputNumber>
+  </div>
+  <div class="button">
+    <button pButton label="Submit" [disabled]="formGroup.invalid"></button>
+  </div>
+</form>

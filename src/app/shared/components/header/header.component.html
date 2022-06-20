@@ -1,0 +1,39 @@
+<div class="header">
+  <div class="actions">
+    <a
+      pButton
+      type="button"
+      icon="pi pi-home"
+      class="p-button-rounded p-button-text"
+      style="color: white"
+      routerLink="home"
+    ></a>
+    <a
+      pButton
+      type="button"
+      icon="pi pi-list"
+      class="p-button-rounded p-button-text"
+      style="color: white"
+      routerLink="coins-list"
+    ></a>
+    <a
+      pButton
+      type="button"
+      icon="pi pi-user"
+      class="p-button-rounded p-button-text"
+      style="color: white"
+      routerLink="portfolio"
+    ></a>
+  </div>
+  <div>
+    <button
+      pButton
+      class="p-button-rounded p-button-text"
+      type="button"
+      icon="pi pi-sign-out"
+      (click)="menu.toggle($event)"
+      style="color: white"
+    ></button>
+    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+  </div>
+</div>

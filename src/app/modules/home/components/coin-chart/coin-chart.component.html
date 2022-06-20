@@ -1,0 +1,25 @@
+<div class="actions">
+  <span class="p-buttonset">
+    <button pButton class="p-button-outlined" (click)="getCoinPrice(24)">
+      24h
+    </button>
+    <button pButton class="p-button-outlined" (click)="getCoinPrice(7)">
+      7d
+    </button>
+    <button pButton class="p-button-outlined" (click)="getCoinPrice(30)">
+      30d
+    </button>
+  </span>
+</div>
+<div style="height: 150px"></div>
+<div class="container">
+  <ngx-charts-line-chart
+    [results]="coin$ | async"
+    [legend]="true"
+    [legendTitle]="legendTitle"
+    [showXAxisLabel]="true"
+    [showYAxisLabel]="true"
+    [xAxisLabel]="dateTime"
+    [yAxisLabel]="coinPrice"
+  ></ngx-charts-line-chart>
+</div>

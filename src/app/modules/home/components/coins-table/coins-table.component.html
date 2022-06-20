@@ -1,0 +1,43 @@
+<p-table
+  [value]="(data$ | async) ?? []"
+  [rows]="10"
+  [showCurrentPageReport]="true"
+  [paginator]="true"
+>
+  <ng-template pTemplate="header">
+    <tr>
+      <th></th>
+      <th>#</th>
+      <th>Coin</th>
+      <th>Symbol</th>
+      <th>Price</th>
+      <th>24h</th>
+      <th>24h Volume</th>
+      <th>Market cap</th>
+      <th></th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-coin>
+    <tr>
+      <td><img class="coin-icon" [src]="coin.image" /></td>
+      <td>{{ coin.market_cap_rank }}</td>
+      <td>{{ coin.name }}</td>
+      <td>{{ coin.symbol }}</td>
+      <td>{{ coin.current_price | currency: "USD" }}</td>
+      <td>{{ coin.price_change_percentage_24h | percent }}</td>
+      <td>{{ coin.market_cap_change_24h | currency: "USD" }}</td>
+      <td>{{ coin.market_cap | currency: "USD" }}</td>
+      <td>
+        <span class="p-buttonset">
+          <button
+            pButton
+            icon="pi pi-chart-line"
+            type="button"
+            (click)="onOpenDialog(coin)"
+            class="p-button-outlined"
+          ></button>
+        </span>
+      </td>
+    </tr>
+  </ng-template>
+</p-table>
