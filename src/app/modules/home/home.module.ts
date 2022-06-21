@@ -18,7 +18,10 @@ import { AddCoinComponent } from './components/add-coin/add-coin.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
-
+import { AuthentificationModule } from '../authentification/authentification.module';
+import { CoinCardEmptyComponent } from './components/coin-card-empty/coin-card-empty.component';
+import { MenuModule } from 'primeng/menu';
+import { SpeedDialModule } from 'primeng/speeddial';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -28,6 +31,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
     CoinChartComponent,
     CoinCardsComponent,
     AddCoinComponent,
+    CoinCardEmptyComponent,
   ],
   imports: [
     CommonModule,
@@ -43,6 +47,9 @@ import { InputNumberModule } from 'primeng/inputnumber';
     ReactiveFormsModule,
     FormsModule,
     InputNumberModule,
+    AuthentificationModule,
+    MenuModule,
+    SpeedDialModule,
   ],
 })
 export class HomeModule {}

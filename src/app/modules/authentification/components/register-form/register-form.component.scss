@@ -1,0 +1,24 @@
+
+.container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+}
+
+.action-button{
+  text-align: center;
+  width: 200px;
+}
+
+.row-item{
+  margin: 1em;
+}
+
+.row-label{
+  padding-left: 3em;
+}
+
+.password{
+  width: 300px;
+}

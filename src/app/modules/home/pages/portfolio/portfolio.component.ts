@@ -6,6 +6,7 @@ import {
 } from '@angular/core';
 import { DialogService } from 'primeng/dynamicdialog';
 import { map, Observable, Subscription, tap } from 'rxjs';
+import { AddCoinService } from 'src/app/services/add-coin.service';
 import { CoinService } from 'src/app/services/coin.service';
 import { AddCoinComponent } from '../../components/add-coin/add-coin.component';
 
@@ -18,34 +19,51 @@ import { AddCoinComponent } from '../../components/add-coin/add-coin.component';
 })
 export class PortfolioComponent implements OnInit, OnDestroy {
   data: any;
-  private subscription!: Subscription;
+  wallet: any;
+  private subscriptions: Subscription[] = [];
+  private currentUserId: any;
 
   constructor(
     private dynamicDialogService: DialogService,
-    private coinService: CoinService
+    private coinService: CoinService,
+    private addCoinService: AddCoinService
   ) {}
 
   ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+    this.subscriptions.forEach((subscription) => {
+      if (subscription) {
+        subscription.unsubscribe();
+      }
+    });
   }
 
   ngOnInit(): void {
-    this.subscription = this.coinService.coins$
-      .pipe(
-        map((coins) => {
-          return coins.map((coin: any) => {
-            return {
-              name: coin.name,
-              id: coin.id,
-            };
-          });
-        }),
-        tap(console.log),
-        tap((data) => (this.data = data))
-      )
-      .subscribe();
+    this.subscriptions.push(
+      this.coinService.coins$
+        .pipe(
+          map((coins) => {
+            return coins.map((coin: any) => {
+              return {
+                name: coin.name,
+                id: coin.id,
+              };
+            });
+          }),
+          tap(console.log),
+          tap((data) => (this.data = data))
+        )
+        .subscribe()
+    );
+    this.subscriptions.push(
+      this.addCoinService.currentUserId$
+        .pipe(
+          tap((id) => {
+            this.currentUserId = id;
+            this.wallet = this.addCoinService.getUserWallet(id);
+          })
+        )
+        .subscribe()
+    );
   }
 
   openDialog() {
@@ -55,7 +73,11 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       width: '70%',
     });
     ref.onClose.subscribe((coin) => {
-      // coin. //post request spremanje u bazu
+      if (coin) {
+        this.addCoinService.addItem(this.currentUserId, coin);
+      } else {
+        return console.log('blabla');
+      }
     });
   }
 }

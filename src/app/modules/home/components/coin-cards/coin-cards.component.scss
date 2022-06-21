@@ -1,0 +1,23 @@
+.card{
+  border: 1px solid black;
+  border-radius: 5%;
+  height: 150px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+:host ::ng-deep {
+  .speed-dial {
+    .p-speeddial-direction-right{
+      .p-speeddial-button.p-button.p-button-icon-only{
+        width:2rem;
+        height: 2rem;
+        margin-left: 92px;
+        color: black;
+        border-radius: 20%;
+      }
+    }
+  }
+}

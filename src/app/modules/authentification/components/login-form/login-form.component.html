@@ -1,0 +1,35 @@
+<form class="container" [formGroup]="formGroup">
+  <h2>Sign in</h2>
+  <div class="row-item">
+    <input
+      placeholder="E-mail"
+      formControlName="email"
+      type="text"
+      pInputText
+    />
+  </div>
+  <div class="row-item">
+    <p-password formControlName="password" placeholder="Password"></p-password>
+  </div>
+  <div class="row-item">
+    <button
+      [loading]="loading[0]"
+      label="Sign in"
+      class="p-button-outlined"
+      pButton
+      (click)="signInWithEmail()"
+    ></button>
+  </div>
+  <div class="row-item">
+    <button
+      [loading]="loading[1]"
+      class="p-button-outlined"
+      label="Sign in with Google"
+      pButton
+      (click)="signInWithGoogle()"
+    ></button>
+  </div>
+  <div class="row-item">
+    Not a member? <a routerLink="/register">Register</a>
+  </div>
+</form>
