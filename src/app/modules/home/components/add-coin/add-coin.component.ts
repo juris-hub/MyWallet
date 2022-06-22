@@ -15,7 +15,6 @@ import {
 } from '@angular/forms';
 import { DynamicDialogConfig, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { map } from 'rxjs';
-import { AddCoinService } from 'src/app/services/add-coin.service';
 
 @Component({
   selector: 'app-add-coin',
@@ -24,15 +23,14 @@ import { AddCoinService } from 'src/app/services/add-coin.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AddCoinComponent implements OnInit {
-  @Output() submit = new EventEmitter();
   coins: any = [];
   formGroup: FormGroup;
+  coinImage: any;
 
   constructor(
     private config: DynamicDialogConfig,
     private fb: FormBuilder,
-    private ref: DynamicDialogRef,
-    private addCoinService: AddCoinService
+    private ref: DynamicDialogRef
   ) {
     this.formGroup = this.fb.group({
       coinId: ['', Validators.required],
@@ -49,6 +47,12 @@ export class AddCoinComponent implements OnInit {
     if (!this.formGroup.valid) {
       return;
     }
-    this.ref.close(this.formGroup.value);
+    this.ref.close({ ...this.formGroup.value, image: this.coinImage });
+  }
+  onSelect() {
+    this.coinImage = this.coins.find(
+      (x: any) => x.id == this.formGroup.value.coinId
+    ).image;
+    console.log(this.coinImage);
   }
 }

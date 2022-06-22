@@ -4,9 +4,18 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { image } from 'd3';
+import { MenuItem } from 'primeng/api';
 import { DialogService } from 'primeng/dynamicdialog';
-import { map, Observable, Subscription, tap } from 'rxjs';
-import { AddCoinService } from 'src/app/services/add-coin.service';
+import {
+  combineLatest,
+  EMPTY,
+  map,
+  Observable,
+  Subscription,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { CoinService } from 'src/app/services/coin.service';
 import { AddCoinComponent } from '../../components/add-coin/add-coin.component';
 
@@ -14,19 +23,19 @@ import { AddCoinComponent } from '../../components/add-coin/add-coin.component';
   selector: 'app-portfolio',
   templateUrl: './portfolio.component.html',
   styleUrls: ['./portfolio.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [DialogService],
 })
 export class PortfolioComponent implements OnInit, OnDestroy {
   data: any;
   wallet: any;
+  items!: MenuItem[];
+  currentWalletId: any;
+  userCoins: any;
   private subscriptions: Subscription[] = [];
-  private currentUserId: any;
 
   constructor(
     private dynamicDialogService: DialogService,
-    private coinService: CoinService,
-    private addCoinService: AddCoinService
+    private coinService: CoinService
   ) {}
 
   ngOnDestroy(): void {
@@ -38,29 +47,60 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.items = [
+      {
+        icon: 'pi pi-pencil',
+        command: () => {},
+      },
+      {
+        icon: 'pi pi-trash',
+        command: () => {},
+      },
+    ];
+
     this.subscriptions.push(
-      this.coinService.coins$
+      combineLatest([this.coinService.coins$, this.coinService.currentUserId$])
         .pipe(
-          map((coins) => {
-            return coins.map((coin: any) => {
-              return {
-                name: coin.name,
-                id: coin.id,
-              };
-            });
+          tap(([coins, id]) => {
+            this.subscriptions.push(
+              (this.wallet = this.coinService
+                .getUserWallet(id)
+                .pipe(
+                  switchMap((wallet) => {
+                    this.currentWalletId = wallet[0].id;
+                    return this.coinService
+                      .getUserCoins(this.currentWalletId)
+                      .pipe(
+                        switchMap((userCoins) => {
+                          let userCoinIds = userCoins.map((coin: any) => {
+                            console.log(coin);
+                            return coin.coinId;
+                          });
+                          this.data = coins
+                            .map((x: any) => {
+                              if (!userCoinIds.includes(x.id)) {
+                                return {
+                                  image: x.image,
+                                  name: x.name,
+                                  id: x.id,
+                                };
+                              }
+                              return;
+                            })
+                            .filter((y: any) => y !== undefined);
+                          console.log(userCoinIds);
+                          console.log(this.data);
+                          console.log(userCoins);
+                          this.userCoins = userCoins;
+                          return this.userCoins;
+                        })
+                      );
+                  })
+                )
+                .subscribe())
+            );
           }),
-          tap(console.log),
-          tap((data) => (this.data = data))
-        )
-        .subscribe()
-    );
-    this.subscriptions.push(
-      this.addCoinService.currentUserId$
-        .pipe(
-          tap((id) => {
-            this.currentUserId = id;
-            this.wallet = this.addCoinService.getUserWallet(id);
-          })
+          tap(console.log)
         )
         .subscribe()
     );
@@ -74,7 +114,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     });
     ref.onClose.subscribe((coin) => {
       if (coin) {
-        this.addCoinService.addItem(this.currentUserId, coin);
+        this.coinService.addItem(this.currentWalletId, coin);
       } else {
         return console.log('blabla');
       }

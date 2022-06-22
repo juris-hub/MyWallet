@@ -1,4 +1,17 @@
 <div class="container">
-  <app-coin-card-empty (click)="openDialog()"></app-coin-card-empty>
-  <app-coin-cards></app-coin-cards>
+  <div class="card-empty" (click)="openDialog()">+</div>
+  <div class="card" *ngFor="let coin of userCoins">
+    <p-speedDial
+      direction="right"
+      [model]="items"
+      showIcon="pi pi-bars"
+      buttonClassName="p-button-outlined"
+      class="speed-dial"
+    ></p-speedDial>
+    <img class="coin-logo" [src]="coin.image" alt="" />
+    <span>{{ coin.amount }}</span>
+    <span>24h</span>
+    <span>Coin amount</span>
+    <span>mozda nest</span>
+  </div>
 </div>

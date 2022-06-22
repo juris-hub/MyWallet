@@ -4,3 +4,50 @@
   gap: 1em;
   padding: 1em 15em 1em 15em;
 }
+
+.card{
+  border: 1px solid black;
+  border-radius: 5%;
+  height: 150px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+:host ::ng-deep {
+  .speed-dial {
+    .p-speeddial-direction-right{
+      .p-speeddial-button.p-button.p-button-icon-only{
+        width:2rem;
+        height: 2rem;
+        margin-left: 92px;
+        color: black;
+        border-radius: 20%;
+      }
+    }
+  }
+}
+
+.coin-logo{
+  padding-top: 10px;
+  width: 50px;
+}
+
+.card-empty{
+  border: 1px dotted black;
+  border-radius: 5%;
+  height: 150px;
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 50px;
+  color: #50a6f0;
+}
+
+.card-empty:hover{
+  background-color: hsla(240, 100%, 62%, 0.096);
+  cursor: pointer;
+}

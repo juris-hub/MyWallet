@@ -13,13 +13,11 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { CoinChartComponent } from './components/coin-chart/coin-chart.component';
 import { NgxChartsModule, NumberCardModule } from '@swimlane/ngx-charts';
 import { CardModule } from 'primeng/card';
-import { CoinCardsComponent } from './components/coin-cards/coin-cards.component';
 import { AddCoinComponent } from './components/add-coin/add-coin.component';
 import { DropdownModule } from 'primeng/dropdown';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { AuthentificationModule } from '../authentification/authentification.module';
-import { CoinCardEmptyComponent } from './components/coin-card-empty/coin-card-empty.component';
 import { MenuModule } from 'primeng/menu';
 import { SpeedDialModule } from 'primeng/speeddial';
 @NgModule({
@@ -29,9 +27,7 @@ import { SpeedDialModule } from 'primeng/speeddial';
     CoinsTableComponent,
     PortfolioComponent,
     CoinChartComponent,
-    CoinCardsComponent,
     AddCoinComponent,
-    CoinCardEmptyComponent,
   ],
   imports: [
     CommonModule,
