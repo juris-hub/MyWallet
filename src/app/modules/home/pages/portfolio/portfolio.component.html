@@ -7,11 +7,11 @@
       showIcon="pi pi-bars"
       buttonClassName="p-button-outlined"
       class="speed-dial"
+      (onClick)="setCurrentId(coin.id)"
     ></p-speedDial>
     <img class="coin-logo" [src]="coin.image" alt="" />
-    <span>{{ coin.amount }}</span>
+    <span>{{ "Amount: " + coin.amount }}</span>
     <span>24h</span>
-    <span>Coin amount</span>
-    <span>mozda nest</span>
+    <span>{{ getCoinPriceInUSD(coin) + " $" }}</span>
   </div>
 </div>

@@ -54,12 +54,20 @@ export class CoinService {
       .add(data);
   }
 
-  deleteItem(walletId: string, itemId: any) {
+  deleteItem(walletId: string, coinId: any) {
     return this.afs
       .doc('wallets/' + walletId)
       .collection('coins')
-      .doc(itemId)
+      .doc(coinId)
       .delete();
+  }
+
+  updateItem(walletId: string, coinId: any, data: any) {
+    return this.afs
+      .doc('wallets/' + walletId)
+      .collection('coins')
+      .doc(coinId)
+      .update(data);
   }
 
   getUserWallet(currentUserId: any) {

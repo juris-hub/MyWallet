@@ -1,0 +1,18 @@
+<div class="p-field p-col-12 p-md-3">
+  <label class="dialog-label"> Enter your amount: </label>
+  <p-inputNumber
+    [minFractionDigits]="2"
+    [maxFractionDigits]="15"
+    mode="decimal"
+    [formControl]="coinAmount"
+  >
+  </p-inputNumber>
+</div>
+<div class="button">
+  <button
+    pButton
+    label="Submit"
+    (click)="onSubmit()"
+    [disabled]="coinAmount.invalid"
+  ></button>
+</div>

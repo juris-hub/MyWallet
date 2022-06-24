@@ -20,6 +20,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { AuthentificationModule } from '../authentification/authentification.module';
 import { MenuModule } from 'primeng/menu';
 import { SpeedDialModule } from 'primeng/speeddial';
+import { EditCoinComponent } from './components/edit-coin/edit-coin.component';
 @NgModule({
   declarations: [
     HomeComponent,
@@ -28,6 +29,7 @@ import { SpeedDialModule } from 'primeng/speeddial';
     PortfolioComponent,
     CoinChartComponent,
     AddCoinComponent,
+    EditCoinComponent,
   ],
   imports: [
     CommonModule,

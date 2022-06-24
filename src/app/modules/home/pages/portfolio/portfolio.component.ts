@@ -18,6 +18,7 @@ import {
 } from 'rxjs';
 import { CoinService } from 'src/app/services/coin.service';
 import { AddCoinComponent } from '../../components/add-coin/add-coin.component';
+import { EditCoinComponent } from '../../components/edit-coin/edit-coin.component';
 
 @Component({
   selector: 'app-portfolio',
@@ -31,6 +32,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
   items!: MenuItem[];
   currentWalletId: any;
   userCoins: any;
+  userCoinsData: any;
+  currentCoinId: any;
   private subscriptions: Subscription[] = [];
 
   constructor(
@@ -50,11 +53,15 @@ export class PortfolioComponent implements OnInit, OnDestroy {
     this.items = [
       {
         icon: 'pi pi-pencil',
-        command: () => {},
+        command: () => {
+          this.editDialog();
+        },
       },
       {
         icon: 'pi pi-trash',
-        command: () => {},
+        command: () => {
+          this.coinService.deleteItem(this.currentWalletId, this.currentCoinId);
+        },
       },
     ];
 
@@ -76,8 +83,12 @@ export class PortfolioComponent implements OnInit, OnDestroy {
                             console.log(coin);
                             return coin.coinId;
                           });
+                          let userCoinsData: any = [];
                           this.data = coins
                             .map((x: any) => {
+                              if (userCoinIds.includes(x.id)) {
+                                userCoinsData.push(x);
+                              }
                               if (!userCoinIds.includes(x.id)) {
                                 return {
                                   image: x.image,
@@ -92,7 +103,8 @@ export class PortfolioComponent implements OnInit, OnDestroy {
                           console.log(this.data);
                           console.log(userCoins);
                           this.userCoins = userCoins;
-                          return this.userCoins;
+                          this.userCoinsData = userCoinsData;
+                          return userCoins;
                         })
                       );
                   })
@@ -104,6 +116,11 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         )
         .subscribe()
     );
+  }
+
+  getCoinPriceInUSD(coin: any) {
+    let currentCoin = this.userCoinsData.find((x: any) => x.id === coin.coinId);
+    return coin.amount * currentCoin.current_price;
   }
 
   openDialog() {
@@ -119,5 +136,26 @@ export class PortfolioComponent implements OnInit, OnDestroy {
         return console.log('blabla');
       }
     });
+  }
+
+  editDialog() {
+    const ref = this.dynamicDialogService.open(EditCoinComponent, {
+      header: 'Edit coin',
+      width: '35%',
+    });
+    ref.onClose.subscribe((coinAmount) => {
+      if (coinAmount) {
+        this.coinService.updateItem(this.currentWalletId, this.currentCoinId, {
+          amount: coinAmount,
+        });
+      } else {
+        return console.log('blabla');
+      }
+    });
+  }
+
+  setCurrentId(id: any) {
+    this.currentCoinId = id;
+    console.log(this.currentCoinId);
   }
 }
