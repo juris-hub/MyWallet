@@ -80,7 +80,6 @@ export class PortfolioComponent implements OnInit, OnDestroy {
                       .pipe(
                         switchMap((userCoins) => {
                           let userCoinIds = userCoins.map((coin: any) => {
-                            console.log(coin);
                             return coin.coinId;
                           });
                           let userCoinsData: any = [];
@@ -99,9 +98,6 @@ export class PortfolioComponent implements OnInit, OnDestroy {
                               return;
                             })
                             .filter((y: any) => y !== undefined);
-                          console.log(userCoinIds);
-                          console.log(this.data);
-                          console.log(userCoins);
                           this.userCoins = userCoins;
                           this.userCoinsData = userCoinsData;
                           return userCoins;
@@ -111,8 +107,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
                 )
                 .subscribe())
             );
-          }),
-          tap(console.log)
+          })
         )
         .subscribe()
     );
@@ -120,7 +115,12 @@ export class PortfolioComponent implements OnInit, OnDestroy {
 
   getCoinPriceInUSD(coin: any) {
     let currentCoin = this.userCoinsData.find((x: any) => x.id === coin.coinId);
-    return coin.amount * currentCoin.current_price;
+    return (coin.amount * currentCoin.current_price).toFixed(2);
+  }
+
+  getCoinCurrentPrice(coin: any) {
+    let currentCoin = this.userCoinsData.find((x: any) => x.id === coin.coinId);
+    return currentCoin.current_price.toFixed(6);
   }
 
   openDialog() {
@@ -133,7 +133,7 @@ export class PortfolioComponent implements OnInit, OnDestroy {
       if (coin) {
         this.coinService.addItem(this.currentWalletId, coin);
       } else {
-        return console.log('blabla');
+        return;
       }
     });
   }
@@ -149,13 +149,12 @@ export class PortfolioComponent implements OnInit, OnDestroy {
           amount: coinAmount,
         });
       } else {
-        return console.log('blabla');
+        return;
       }
     });
   }
 
   setCurrentId(id: any) {
     this.currentCoinId = id;
-    console.log(this.currentCoinId);
   }
 }

@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { IsLoggedInGuard as AuthGuard } from 'src/app/services/is-logged-in.guard';
 
 const routes: Routes = [
   {

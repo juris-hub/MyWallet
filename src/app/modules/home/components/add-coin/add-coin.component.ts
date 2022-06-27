@@ -53,6 +53,5 @@ export class AddCoinComponent implements OnInit {
     this.coinImage = this.coins.find(
       (x: any) => x.id == this.formGroup.value.coinId
     ).image;
-    console.log(this.coinImage);
   }
 }

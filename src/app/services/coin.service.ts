@@ -71,13 +71,11 @@ export class CoinService {
   }
 
   getUserWallet(currentUserId: any) {
-    console.log('čiribučiriba');
     return this.afs
       .collection('wallets', (ref) => ref.where('ownerId', '==', currentUserId))
       .snapshotChanges()
       .pipe(
         map((actions) => {
-          console.log('Get user wallet was triggered');
           return actions.map((action) => {
             const data = action.payload.doc.data() as any;
             const id = action.payload.doc.id;

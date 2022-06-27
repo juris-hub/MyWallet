@@ -10,8 +10,12 @@
       (onClick)="setCurrentId(coin.id)"
     ></p-speedDial>
     <img class="coin-logo" [src]="coin.image" alt="" />
-    <span>{{ "Amount: " + coin.amount }}</span>
-    <span>24h</span>
-    <span>{{ getCoinPriceInUSD(coin) + " $" }}</span>
+    <span class="span-item">{{ "Amount: " + coin.amount }}</span>
+    <span class="span-item">{{
+      "Current price of coin: " + (getCoinCurrentPrice(coin) | currency)
+    }}</span>
+    <span class="span-item">{{
+      "Total: " + (getCoinPriceInUSD(coin) | currency)
+    }}</span>
   </div>
 </div>
